@@ -6,15 +6,21 @@
 
 int main(int argc, char *argv[]){
 
-   int i,n;
+   int i,n,t,z=0,x=0,y;
+   int val=0;
    int found=0;
-   int curr_key_cost,this_key;
+   int curr_key_cost,this_key,tracker=0;
    int data_array[] = {14, 5, 6};
    int keys_owned[] = {6,4,2,7,5};
    int tennis_balls[]={13,1,6,9,4,2};
    int min_key = data_array[0];
+   int lockers_opened[data_array[0]];
    int solution_array[data_array[0]];//prevents the counting of duplicate key results
+   int unlocked=0;
    int curr_locker;
+   int chosen_path;
+   int min_locker_cost;
+   int curr_locker_first,curr_locker_last;
    int min_locker;
    int min_locker_location;
 
