@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[]){
 
-   int i,n,t,z=0;
+   int i,n,t,z=0,x=0,y;
    int val=0;
    int found=0;
    int curr_key_cost,this_key,tracker=0;
@@ -73,45 +73,24 @@ int main(int argc, char *argv[]){
       printf("Done checking existing array, now looking at keys\n");
       //we've finished and got the best possible path from the closest open locker. Now, we'll check the best route if we use a key
 
+      //this here algroithm shall come up with the best possible path from the current tennis ball to a key.
       min_key = data_array[0];
       for(n=0;n<sizeof(keys_owned)/sizeof(int);n++){
          curr_key_cost = abs(tennis_balls[i]-keys_owned[n]);
          if (curr_key_cost < min_key) {
             min_key = curr_key_cost+1;
             this_key = keys_owned[n];
+            if(tennis_balls[i] == 1){
+               solution_array[0] == 1;
+            }else if (tennis_balls[i] == data_array[0]){
+               solution_array[(sizeof(solution_array)/sizeof(int))] = data_array[0];
+            }else{
+               solution_array[tennis_balls[i+1]] = tennis_balls[i+1];
+               solution_array[tennis_balls[i-1]] = tennis_balls[i-1];
+            }
          }
       }
       printf("The shortest route to tennis ball at locker %d is with path %d, using key %d\n",tennis_balls[i],min_key,this_key);
    }
-   /*
-    * for (i=0;i<sizeof(tennis_balls)/sizeof(int);i++){
-    min_key = data_array[0];
-    for(n=0;n<sizeof(keys_owned)/sizeof(int);n++){
-    curr_key_cost = abs(tennis_balls[i]-keys_owned[n]);
-    if (curr_key_cost < min_key) {
-    min_key = curr_key_cost+1;
-    this_key = keys_owned[n];
-    }
-    }
-    solution_array[z]=tennis_balls[i];
-    z++;
-    printf("The shortest route to tennis ball at locker %d is with path %d, using key %d\n",tennis_balls[i],min_key,this_key);
-    if (unlocked==1){
-    min_locker_cost = data_array[0];
-    for(n=0;n<(sizeof(solution_array)/sizeof(int));n++){
-    if (solution_array[n]!=0){
-    curr_locker_cost=abs(tennis_balls[i]-solution_array[n]+1);
-    if(curr_locker_cost < min_locker_cost){
-    min_locker_cost = curr_locker_cost;
-    chosen_path=solution_array[n];
-    }
-    }
-    }
-    printf("The shortest route to the tennis ball at locker %d is with path %d from opened locker %d\n",tennis_balls[i],curr_locker_cost,chosen_path);
-    }
-    unlocked=1;
-    printf("\n");
-    }
-    */
    return 0;
 }
