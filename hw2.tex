@@ -1,0 +1,123 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\title{CS 325 HW2}
+\date{1/19/15}
+\author{Evan Steele}
+
+\begin{document}
+
+\lstset{language=bash}
+\maketitle
+\pagenumbering{gobble}
+\newpage
+\pagenumbering{arabic}
+
+\section{Question 1}
+\subsection{Dynamic Programming table}
+The dynamic programming table for finding a subset of integers in an array to add up to integer $K$ would look similar to the one for finding the largest subset in an array of size N. 
+\begin{table}[h]
+\begin{tabular}{llllllllll}
+\textbf{sizeof(Array)} & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+\multicolumn{1}{l|}{\textbf{sumof(LargestSubset)}} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{\textbf{}} & Possible\_K\_vals &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{2} & Possible\_K\_vals &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{3} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{4} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{5} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{6} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{7} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{8} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{9} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{10} &  &  &  &  &  &  &  &  & 
+\end{tabular}
+\end{table}
+\subsection{Formula}
+Any given entry for the table can be given by $value(K,n[0..x]) = compare(sum(n[x]+n[x+1],K))$ where the compare function returns the sum should the value be equal to K, or zero if no such sume exists. The summation function will be the one adding each array value.
+\subsection{Fill the table}
+Filling the table can be accomplished by running the previous formula in a recursive fashion, where the first array element is added to the second, then compared to K. If it is equal, we return the sum. If not, we continue adding. If we've gone through the entire array where no such sum is found, we can return zero. Each cell of the table will be filled in with the sum acquired with n elements of the array, to be compared against value $K$.
+\subsection{Psudeocode}
+It would look something like this: \newline
+\begin{lstlisting}
+array[1,...,n]
+for i = 1 to n
+	curr_val <- sum(prev_sum + a[i]
+	if compare(K,curr_val) is true
+		return curr_val
+\end{lstlisting}
+\subsection{Running Time}
+The running time for this loop would be Big-O of n, or $O(n)$, because we are able to run the single loop for only once per member, allowing us to keep a shorter running time. We use the same principle as seen in the maximum sub-array, where one of the algorithms concluded that the maximum sub-array used the last element of the input array, or it doesn't. Based on that idea, we can achieve this running time.
+\section{Question 2}
+\subsection{Dynamic Programming Table}
+This problem asks us to find the values in an array for which the placement of a restaurant would be most efficient. The calculations for each cell in the table would be the maximum profit $p$ one could achieve at array location $m[i]$ when there's a distance of $k$ from the last burger joint (or whatever they're selling).
+\begin{table}[h]
+\begin{tabular}{llllllllll}
+\textbf{sizeof(Array)} & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+\multicolumn{1}{l|}{\textbf{max(Profit)}} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{\textbf{}} & Calculated\_Profit &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{2} & Calculated\_Profit &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{3} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{4} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{5} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{6} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{7} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{8} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{9} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{10} &  &  &  &  &  &  &  &  & 
+\end{tabular}
+\end{table}
+\subsection{Formula} 
+Each entry for the location would be a calculation of the formula $p(a[i],k) = MAX( (p(a[i+1],k+mi),p(a[i],k) )$ which would figure out if the current location or the next up location. Which ever one returns a higher profit will be the outcome of the MAX() function. You could think of this like we did with the knapsack problem, where we have two worlds. In one, we open a burger place at location $a[i]$, which sits $k$ miles from the last one. In world two, we open a place at $a[i+1]$, which sits $k+mi$ from the last one, where $mi$ is the change in miles. Which ever one is more profitable wins.
+\subsection{Fill the table}
+Filling the table would be accomplished by running the previous equation for each array location, and it's difference from each other array location in profit. We would compare the two worlds, choose the best one, and fill the table cell from there. Each cell would have the maximum profit for each section, with the difference being the distance, $K$, to the last one.
+\subsection{Psudeocode}
+It would look something like this: \newline
+\begin{lstlisting}
+array[1...n]
+for i = 1 to n
+	if p(a[location_of_prev_rest,k) < p(a[i],k)
+		MAX( (p(a[i+1],k+mi),p(a[i],k) )
+	else
+		return p(a[location_of_prev_rest,k)
+\end{lstlisting}
+\subsection{Running Time}
+Unfortunately, the  running time for this loop would probably be close to $2^{n}$, as the recursive call would have to go over each 2 worlds for each iteration of $n$, resulting in a high running time. 
+\section{Question 3}
+\subsection{Dynamic Programming Table}
+This problem asks us if a string is palindromic, specifically the longest one. This would require us to have a function, say palindrome(str), where str is a string of length $x$, comprised of characters in an array. The only other mechanic to consider is the method of determining if the string is palindromic or not. We know that not all the characters in the entire string will always form a palindrome, but maybe only some of them. As such, we need only to fill in the table with the longest palindrome.
+\begin{table}[h]
+\begin{tabular}{llllllllll}
+\textbf{sizeof(Array)} & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+\multicolumn{1}{l|}{\textbf{chars\_in\_palindromic\_string}} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{\textbf{}} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{2} & \textbf{sizeof(largest\_palindrome)} &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{3} & \textbf{sizeof(largest\_palindrome)} &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{4} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{5} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{6} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{7} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{8} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{9} &  &  &  &  &  &  &  &  &  \\
+\multicolumn{1}{l|}{10} &  &  &  &  &  &  &  &  & 
+\end{tabular}
+\end{table}
+\subsection{Formula} 
+The entry for each location might look something like the formula $pdrone(x[n]) = MAX( pdrone(x[n]), pdrone(x[m]))$ where $n,m$ represent different strings from the same large string.
+\subsection{Fill the Table}
+Filling the table would be accomplished by looking at the subsets of the larger string at each string size, up to the total size of the string. For instance, in the previous equation, take $n$ as the total length of the string, and $m$ as a subset. We'll look at substrings of length $m$ up to length $n$, and try to find palindromes. The table would indicate if one at that string length was found. If not, we'll fill in a zero.
+\subsection{Psudeocode}
+It might look like this: \newline
+\begin{lstlisting}
+array[1...n]
+for i =1 to n
+	for j = 1 to m
+		if determine_palindrome(n[length m]) returns true
+		max_palindrome = n[length m]
+		else return 0
+\end{lstlisting}
+\subsection{Running time}
+As per the instructions, this is a Big-O $n^{2}$ time code.
+\end{document}

@@ -1,0 +1,45 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\title{CS 325 HW1}
+\date{1/13/15}
+\author{Evan Steele}
+
+\begin{document}
+
+\lstset{language=bash}
+\maketitle
+\pagenumbering{gobble}
+\newpage
+\pagenumbering{arabic}
+
+\section{Question 1}
+The list of terms, in order from slowest growing to fastest growing
+\begin{itemize}
+   \item $n^{1/2}$
+   \item $n log(n)$
+   \item $(log(n)+1)^{3}$
+   \item $n^{log_{3}(7)}$
+   \item $2^{log(2)n}$, $5^{log(3)n}$
+   \item $7^{2n}$
+   \item $(1000(log(n)))^{3}$
+\end{itemize}
+\section{Question 2}
+For each $f(n)$ and $g(n)$, it will be noted if the result is Big-O, Big-Theta, or Big-Omega
+\begin{itemize}
+   \item $3n+6$ , $10000n-500$ is Big-Theta
+   \item $n^{1/2}$, $n^{1/3}$ is Big-O
+   \item $log(7n)$, $log(n)$ is Big-Theta
+   \item $n^{1.5}$, $nlog(n)$ is Big-Omega
+   \item $\sqrt[2]{n}$, $(logn)^{3}$ is Big-Omega
+   \item $n2^{n}$, $3^{n}$, is Big-O
+\end{itemize}
+\section{Question 3}
+We know that the sum of a geometric series is the first term if it is increasing, or the last term if it is decreasing. We do have a closed-form for this series, which might look like this: $\frac{c^{n+1}-1}{c-1}$ for our series. With this, we can determine the remaining instances using limits. if $c<1$, we can take the limit as $n$ approaches infinity, which looks like this: $\lim_{x\to\infty} g(n) = \frac{1}{1-c}$ where we conclude that the time is constant. If $c=1$, we automatically get big-theta. If $c>1$, 
+we have a new limit that looks like this: $\lim_{x\to\infty} g(n) = \frac{c-\frac{1}{c^{n}}}{c-1}$ for the function. This works out to $c^{c}$, which becomes our Big-O.
+\section{Question 4}
+We know, given the nature of the $n!$ function, that the expansion of the $log(n!)$ would look like $log(n!) = log(1) + log(2) + ... + log(n-1) + log(n)$, in which the upper bound for Big-O is given by $n*log(n)$. In order to get Big-Theta from this, we must also show that the growth for Big-Omega is the same. It works out to $n/2 * log(n/2)$ which gives us a Big-Omega of $n log(n)$
+\end{document}
