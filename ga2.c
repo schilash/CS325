@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
    int val=0;
    int found=0;
    int curr_key_cost,this_key,tracker=0;
-   int data_array[] = {14, 5, 6};
+   int data_array[] = {13, 5, 6};
    int keys_owned[] = {6,4,2,7,5};
    int tennis_balls[]={13,1,6,9,4,2};
    int min_key = data_array[0];

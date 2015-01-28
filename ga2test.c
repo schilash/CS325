@@ -5,7 +5,6 @@
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 
 void unlock_locker(int arr[],int locker,int max){
-   printf("Now unlocking locker %i\n",locker);
    if(locker==0){
       arr[0] = 1;
       arr[1] = 1;
@@ -38,6 +37,8 @@ int main(int argc, char *argv[]){
    int curr_locker_first,curr_locker_last;
    int min_locker;
    int min_locker_location;
+   int this_locker;
+   int curr_locker_cost;
 
    memset(solution_array,0,(sizeof(solution_array)/sizeof(int)));
    for(i=0;i<(sizeof(solution_array)/sizeof(int));i++){
@@ -69,13 +70,44 @@ int main(int argc, char *argv[]){
    }
    printf("We have arbitrarily chosen tennis ball at locker %d to be unlocked opening %d lockers, using key %d\n",tennis_balls[i],min_key,this_key);
 
-   for(x=this_key;(abs(x-tennis_balls[i]))!=0;x++){
+   val = min_key;
+   for(x=this_key-1;(abs(x-tennis_balls[i]))!=0;x++){
       unlock_locker(solution_array,x,data_array[0]);
    }
 
-   //let's see what's unlocked
-   for(x=0;x<data_array[0];x++){
-      printf("we open at %i? %i\n",x,solution_array[x]);
+   /*
+   for(x=0;x<(sizeof(solution_array)/sizeof(int));x++){
+      printf("x-%i (LOCKER %i): %i\n",x,x+1,solution_array[x]);
    }
+   */
+
+
+   //We have retrieved one tennis ball with a key now, with the opened lockers stored in the solution array. Now each remaining tennis ball will be tested against the newly opened lockers and the keys still avaliable
+   for(i=1;i<(sizeof(tennis_balls)/sizeof(int));i++){
+      curr_key_cost = data_array[0];
+      for(n=0;n<(sizeof(keys_owned)/sizeof(int));n++){
+         curr_key_cost = abs(tennis_balls[i]-keys_owned[n]);
+         if (curr_key_cost < min_key){
+            min_key = curr_key_cost+1;
+            this_key = keys_owned[n];
+         }
+      }
+      printf("It appears that the best KEY path for tennis ball %i is using key %i, with a path of %i\n",tennis_balls[i],this_key,min_key);
+      //Let's see how it compares with our opened lockers....
+
+      min_locker = data_array[0];
+      for(x=0;x<(sizeof(solution_array)/sizeof(int));x++){
+         if(solution_array[x]!=0){
+            curr_locker_cost = abs(tennis_balls[i]-solution_array[x]);
+            if (curr_locker_cost < min_locker){
+               min_locker = curr_locker_cost+1;
+               this_locker = x;
+            }
+         }
+      }
+      printf("It appears that the best OPENED LOCKER path for tennis ball %i is using opened locker %i, with a path of %i\n",tennis_balls[i],this_locker,min_locker);
+      printf("\n");
+   }
+
    return 0;
 }
