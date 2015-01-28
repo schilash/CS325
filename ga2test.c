@@ -98,7 +98,7 @@ int main(int argc, char *argv[]){
       min_locker = data_array[0];
       for(x=0;x<(sizeof(solution_array)/sizeof(int));x++){
          if(solution_array[x]!=0){
-            curr_locker_cost = abs(tennis_balls[i]-solution_array[x]);
+            curr_locker_cost = abs(tennis_balls[i]-x);
             if (curr_locker_cost < min_locker){
                min_locker = curr_locker_cost+1;
                this_locker = x;
